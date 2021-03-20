@@ -1,5 +1,3 @@
-// import './sass/main.scss';
-
 const colors = [
   '#FFFFFF',
   '#2196F3',
@@ -10,30 +8,35 @@ const colors = [
 ];
 
 let timerId = null;
+let cycleIterationIsActive = false;
 
 const refs = {
-    startBtn: document.querySelector('button[data-action="start"]'),
-    stopBtn: document.querySelector('button[data-action="stop"]'),
-    backgroundBody: document.querySelector('body'),
+  startBtn: document.querySelector('button[data-action="start"]'),
+  stopBtn: document.querySelector('button[data-action="stop"]'),
+  backgroundBody: document.querySelector('body'),
 };
 
 refs.startBtn.addEventListener('click', onCycleIteration);
 
 function onCycleIteration() {
-  
-   timerId = setInterval(() => {
-      onBackgroundBodyCycle(randomIntegerFromInterval(0, colors.length - 1));
-    }, 1000);
+  if (cycleIterationIsActive) {
+    return;
+  }
+  timerId = setInterval(() => {
+    onBackgroundBodyCycle(randomIntegerFromInterval(0, colors.length - 1));
+  }, 1000);
+
+  cycleIterationIsActive = true;
 };
 
 function onBackgroundBodyCycle(number) {
-    refs.backgroundBody.style.backgroundColor = colors[number];
-    console.log(refs.backgroundBody.style);
+  refs.backgroundBody.style.backgroundColor = colors[number];
 };
 
 refs.stopBtn.addEventListener('click', offCycleIteration);
 
 function offCycleIteration() {
+  cycleIterationIsActive = false;
   clearInterval(timerId);
 };
 
