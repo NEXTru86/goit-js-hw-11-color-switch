@@ -118,9 +118,9 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"index.js":[function(require,module,exports) {
-// import './sass/main.scss';
 var colors = ['#FFFFFF', '#2196F3', '#4CAF50', '#FF9800', '#009688', '#795548'];
 var timerId = null;
+var cycleIterationIsActive = false;
 var refs = {
   startBtn: document.querySelector('button[data-action="start"]'),
   stopBtn: document.querySelector('button[data-action="stop"]'),
@@ -129,22 +129,27 @@ var refs = {
 refs.startBtn.addEventListener('click', onCycleIteration);
 
 function onCycleIteration() {
+  if (cycleIterationIsActive) {
+    return;
+  }
+
   timerId = setInterval(function () {
     onBackgroundBodyCycle(randomIntegerFromInterval(0, colors.length - 1));
   }, 1000);
+  cycleIterationIsActive = true;
 }
 
 ;
 
 function onBackgroundBodyCycle(number) {
   refs.backgroundBody.style.backgroundColor = colors[number];
-  console.log(refs.backgroundBody.style);
 }
 
 ;
 refs.stopBtn.addEventListener('click', offCycleIteration);
 
 function offCycleIteration() {
+  cycleIterationIsActive = false;
   clearInterval(timerId);
 }
 
@@ -181,7 +186,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63235" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55312" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
